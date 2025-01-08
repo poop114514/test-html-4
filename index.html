@@ -1,0 +1,204 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+    <link rel="stylesheet" href="https://static0.xesimg.com/talcode/bootstrap4.6/css/bootstrap.min.css">
+    <script src="https://cdn.staticfile.org/jquery/3.2.1/jquery.min.js"></script>
+    <script src="https://cdn.staticfile.org/twitter-bootstrap/4.3.1/js/bootstrap.min.js"></script>
+    <link href="https://fonts.googleapis.com/css?family=Nunito:400,600,700,800|Roboto:400,500,700" rel="stylesheet">
+    <link type="text/css" href="./assets/css/theme.css" rel="stylesheet">
+    <link type="text/css" href="./assets/css/demo.css" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: Arial, sans-serif;
+            height: 100vh;
+            margin: 0;
+            overflow: hidden;
+            position: relative;
+        }
+
+        .navbar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            padding: 10px 20px;
+            display: flex;
+            justify-content: center;
+            background-color: transparent;
+            transition: background-color 0.3s ease;
+            z-index: 10;
+        }
+
+        .navbar a {
+            color: rgb(255, 255, 255);
+            margin: 0 15px;
+            text-decoration: none;
+            font-size: 1.2em;
+        }
+
+        .navbar.white-background {
+            background-color: white;
+            color: black;
+            justify-content: flex-start; /* 向左对齐 */
+        }
+
+        .navbar.white-background a {
+            color: black; /* 导航链接变为黑色 */
+        }
+
+        .scroll-container {
+            height: 100vh;
+            overflow-y: scroll;
+            scroll-snap-type: y mandatory;
+            scroll-behavior: smooth;
+        }
+
+        .page {
+            height: 100vh; /* 每一页的高度 */
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            border-bottom: 2px solid #ddd;
+            scroll-snap-align: start; /* 每页开始位置对齐 */
+            font-size: 3em;
+            color: rgb(0, 0, 0);
+            position: relative;
+        }
+
+        .page:nth-child(1) {
+            background-image: url("https://wallpapershome.com/images/pages/ico_h/12592.jpg");
+            background-size: cover; /*  关键属性：将背景图片缩放以覆盖整个容器 */
+            background-repeat: no-repeat; /*  避免图片重复 */
+            background-position: center; /* 将背景图片居中 */
+            height: 100vh; /* 设置页面高度为视口高度，确保背景覆盖整个页面 */
+            width: 100vw; /* 设置页面宽度为视口宽度 */
+        }
+
+        .page:nth-child(2) {
+            background-image: url("https://www.minecraft.net/content/dam/games/minecraft/key-art/MC-Vanilla_Updates-Carousel_CandC-Part-I_800x450.jpg");
+            background-size: cover; /*  关键属性：将背景图片缩放以覆盖整个容器 */
+            background-repeat: no-repeat; /*  避免图片重复 */
+            background-position: center; /* 将背景图片居中 */
+            height: 100vh; /* 设置页面高度为视口高度，确保背景覆盖整个页面 */
+            width: 100vw; /* 设置页面宽度为视口宽度 */
+            font-size: 2em;
+        }
+
+        .page:nth-child(3) {
+            background-color: rgb(255, 255, 255);
+        }
+
+        .page:nth-child(4) {
+            background-color: rgb(255, 255, 255);
+        }
+
+        .page:nth-child(5) {
+            background-color: rgb(255, 255, 255);
+        }
+
+        .me {
+            display: flex; /* 将 `.me` 元素设置为 Flex 容器，使其子元素可以使用 Flexbox 布局 */
+            flex-direction: column; /* 设置 Flex 容器的主轴方向为垂直方向，子元素将从上到下排列 */
+            align-items: center; /* 在交叉轴方向（这里是水平方向）上，将子元素居中对齐 */
+            background-color: rgba(200, 200, 200, 0.8); /* 半透明背景色 (灰白色, 50% 透明度) */
+            padding: 5px 10px; /* 内边距，增加标签内部空间 */
+            border-radius: 8px; /* 圆角半径 */
+            display: inline-block; /* 使标签只占据内容所需的空间，并且可以应用内边距 */
+            border: 0.3px solid black; /* 添加 1 像素的黑色边框 */
+        }
+        .content{
+            display: flex; /* 将 `.me` 元素设置为 Flex 容器，使其子元素可以使用 Flexbox 布局 */
+            flex-direction: column; /* 设置 Flex 容器的主轴方向为垂直方向，子元素将从上到下排列 */
+            align-items: center; /* 在交叉轴方向（这里是水平方向）上，将子元素居中对齐 */
+            padding: 5px 10px; /* 内边距，增加标签内部空间 */
+            border-radius: 8px; /* 圆角半径 */
+            display: inline-block; /* 使标签只占据内容所需的空间，并且可以应用内边距 */
+            border: 0.3px solid rgb(166, 166, 166); /* 添加 1 像素的黑色边框 */
+        }
+    </style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>滚动翻页</title>
+</head>
+<body>
+    <!-- 导航条 -->
+    <div class="navbar" id="navbar">
+        <a href="#page1">首页</a>
+        <a href="#page2">第二页</a>
+        <a href="#page3">第三页</a>
+        <a href="#page4">第四页</a>
+    </div>
+
+    <div class="scroll-container" id="scrollContainer">
+        <section class="page" id="page1">
+            <div class="content">   
+                <h1>无限进步</h1>
+                <h4>-影视飓风</h4>
+            </div>
+        </section>
+        <section class="page" id="page2">
+            <div class="me">
+                <form>
+                    <input type="image" src="https://hootao.us.kg/img/mcpfp%20-%20Bendy_b.png" width="200"
+                        class="rounded" />
+                </form>
+                <h5>陈师傅</h5>
+                <h5>个人简介</h5>
+                <h6>我是人。</h6>
+                <h6>18岁</h6>
+                <h6>男</h6>
+            </div>
+        </section>
+        <section class="page" id="page3">page3</section>
+        <section class="page" id="page4">page4</section>
+        <section class="page" id="page5">page5</section>
+    </div>
+
+    <script>
+        const scrollContainer = document.getElementById("scrollContainer");
+        const pages = document.querySelectorAll(".page");
+        const navbar = document.getElementById("navbar");
+
+        function handlePageChange(entry) {
+            if (entry.isIntersecting) {
+                const pageIndex = Array.from(pages).indexOf(entry.target);
+                console.log("当前页面: ", entry.target.id);
+
+                // Adjust navbar based on page index
+                if (pageIndex === 0) {
+                    navbar.classList.remove('white-background');
+                } else {
+                    navbar.classList.add('white-background');
+                }
+            }
+        }
+
+        const observer = new IntersectionObserver(entries => {
+            entries.forEach(handlePageChange);
+        }, {
+            root: scrollContainer,
+            threshold: 0.5
+        });
+
+        pages.forEach(page => {
+            observer.observe(page);
+        });
+
+        // 添加导航链接的平滑滚动
+        const navLinks = document.querySelectorAll('.navbar a');
+        navLinks.forEach(link => {
+            link.addEventListener('click', function (event) {
+                event.preventDefault();
+                const targetId = this.getAttribute('href').substring(1);
+                document.getElementById(targetId).scrollIntoView({ behavior: 'smooth' });
+            });
+        });
+    </script>
+</body>
+</html>
